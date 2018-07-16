@@ -1,0 +1,954 @@
+I0331 14:31:52.071331  9021 caffe.cpp:314] Using Virtual Devices 0, 1
+I0331 14:31:52.073117  9021 solver.cpp:90] Initializing solver from parameters: 
+test_iter: 0
+test_interval: 2000
+base_lr: 0.001
+display: 800
+max_iter: 800
+lr_policy: "fixed"
+momentum: 0.9
+weight_decay: 0.004
+snapshot: 10000
+snapshot_prefix: "examples/cifar10/cifar10_full"
+solver_mode: VIRTDEV
+device_id: 0
+net: "examples/cifar10/cifar10_full_train_test_bsize128.prototxt"
+train_state {
+  level: 0
+  stage: ""
+}
+snapshot_after_train: false
+snapshot_format: HDF5
+I0331 14:31:52.077033  9021 solver.cpp:135] Creating training net from net file: examples/cifar10/cifar10_full_train_test_bsize128.prototxt
+I0331 14:31:52.082006  9021 solver.cpp:140] param_.device_id() :0 scheduled at 2
+I0331 14:31:52.107389  9021 cpu_info.cpp:452] Processor speed [MHz]: 1300
+I0331 14:31:52.107481  9021 cpu_info.cpp:455] Total number of sockets: 1
+I0331 14:31:52.107511  9021 cpu_info.cpp:458] Total number of CPU cores: 64
+I0331 14:31:52.107540  9021 cpu_info.cpp:461] Total number of processors: 256
+I0331 14:31:52.107568  9021 cpu_info.cpp:464] GPU is used: no
+I0331 14:31:52.107596  9021 cpu_info.cpp:467] OpenMP environmental variables are specified: yes
+I0331 14:31:52.107623  9021 cpu_info.cpp:470] OpenMP thread bind allowed: no
+OMP: Info #204: KMP_AFFINITY: decoding x2APIC ids.
+OMP: Info #202: KMP_AFFINITY: Affinity capable, using global cpuid leaf 11 info
+OMP: Info #154: KMP_AFFINITY: Initial OS proc set respected: {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,32,33,34,35,36,37,38,39}
+OMP: Info #156: KMP_AFFINITY: 24 available OS procs
+OMP: Info #157: KMP_AFFINITY: Uniform topology
+OMP: Info #179: KMP_AFFINITY: 1 packages x 24 cores/pkg x 1 threads/core (24 total cores)
+OMP: Info #206: KMP_AFFINITY: OS proc to physical thread map:
+OMP: Info #171: KMP_AFFINITY: OS proc 0 maps to package 0 core 0 
+OMP: Info #171: KMP_AFFINITY: OS proc 1 maps to package 0 core 1 
+OMP: Info #171: KMP_AFFINITY: OS proc 32 maps to package 0 core 12 
+OMP: Info #171: KMP_AFFINITY: OS proc 33 maps to package 0 core 13 
+OMP: Info #171: KMP_AFFINITY: OS proc 34 maps to package 0 core 20 
+OMP: Info #171: KMP_AFFINITY: OS proc 35 maps to package 0 core 21 
+OMP: Info #171: KMP_AFFINITY: OS proc 2 maps to package 0 core 24 
+OMP: Info #171: KMP_AFFINITY: OS proc 3 maps to package 0 core 25 
+OMP: Info #171: KMP_AFFINITY: OS proc 36 maps to package 0 core 28 
+OMP: Info #171: KMP_AFFINITY: OS proc 37 maps to package 0 core 29 
+OMP: Info #171: KMP_AFFINITY: OS proc 4 maps to package 0 core 32 
+OMP: Info #171: KMP_AFFINITY: OS proc 5 maps to package 0 core 33 
+OMP: Info #171: KMP_AFFINITY: OS proc 38 maps to package 0 core 36 
+OMP: Info #171: KMP_AFFINITY: OS proc 39 maps to package 0 core 37 
+OMP: Info #171: KMP_AFFINITY: OS proc 6 maps to package 0 core 40 
+OMP: Info #171: KMP_AFFINITY: OS proc 7 maps to package 0 core 41 
+OMP: Info #171: KMP_AFFINITY: OS proc 8 maps to package 0 core 48 
+OMP: Info #171: KMP_AFFINITY: OS proc 9 maps to package 0 core 49 
+OMP: Info #171: KMP_AFFINITY: OS proc 10 maps to package 0 core 56 
+OMP: Info #171: KMP_AFFINITY: OS proc 11 maps to package 0 core 57 
+OMP: Info #171: KMP_AFFINITY: OS proc 12 maps to package 0 core 64 
+OMP: Info #171: KMP_AFFINITY: OS proc 13 maps to package 0 core 65 
+OMP: Info #171: KMP_AFFINITY: OS proc 14 maps to package 0 core 72 
+OMP: Info #171: KMP_AFFINITY: OS proc 15 maps to package 0 core 73 
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 0 bound to OS proc set {0}
+I0331 14:31:52.119338  9021 cpu_info.cpp:473] Number of OpenMP threads: 16
+I0331 14:31:52.119632  9021 net.cpp:493] The NetState phase (0) differed from the phase (1) specified by a rule in layer cifar
+I0331 14:31:52.119706  9021 net.cpp:493] The NetState phase (0) differed from the phase (1) specified by a rule in layer accuracy
+I0331 14:31:52.121742  9021 net.cpp:125] Initializing net from parameters: 
+name: "CIFAR10_full"
+state {
+  phase: TRAIN
+  level: 0
+  stage: ""
+}
+layer {
+  name: "cifar"
+  type: "Data"
+  top: "data"
+  top: "label"
+  include {
+    phase: TRAIN
+  }
+  transform_param {
+    mean_file: "examples/cifar10/mean.binaryproto"
+  }
+  data_param {
+    source: "examples/cifar10/cifar10_train_lmdb"
+    batch_size: 128
+    backend: LMDB
+  }
+}
+layer {
+  name: "conv1"
+  type: "Convolution"
+  bottom: "data"
+  top: "conv1"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  convolution_param {
+    num_output: 32
+    pad: 2
+    kernel_size: 5
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.0001
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "pool1"
+  type: "Pooling"
+  bottom: "conv1"
+  top: "pool1"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "relu1"
+  type: "ReLU"
+  bottom: "pool1"
+  top: "pool1"
+}
+layer {
+  name: "norm1"
+  type: "LRN"
+  bottom: "pool1"
+  top: "norm1"
+  lrn_param {
+    local_size: 3
+    alpha: 5e-05
+    beta: 0.75
+    norm_region: WITHIN_CHANNEL
+  }
+}
+layer {
+  name: "conv2"
+  type: "Convolution"
+  bottom: "norm1"
+  top: "conv2"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  convolution_param {
+    num_output: 32
+    pad: 2
+    kernel_size: 5
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu2"
+  type: "ReLU"
+  bottom: "conv2"
+  top: "conv2"
+}
+layer {
+  name: "pool2"
+  type: "Pooling"
+  bottom: "conv2"
+  top: "pool2"
+  pooling_param {
+    pool: AVE
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "norm2"
+  type: "LRN"
+  bottom: "pool2"
+  top: "norm2"
+  lrn_param {
+    local_size: 3
+    alpha: 5e-05
+    beta: 0.75
+    norm_region: WITHIN_CHANNEL
+  }
+}
+layer {
+  name: "conv3"
+  type: "Convolution"
+  bottom: "norm2"
+  top: "conv3"
+  convolution_param {
+    num_output: 64
+    pad: 2
+    kernel_size: 5
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu3"
+  type: "ReLU"
+  bottom: "conv3"
+  top: "conv3"
+}
+layer {
+  name: "pool3"
+  type: "Pooling"
+  bottom: "conv3"
+  top: "pool3"
+  pooling_param {
+    pool: AVE
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "ip1"
+  type: "InnerProduct"
+  bottom: "pool3"
+  top: "ip1"
+  param {
+    lr_mult: 1
+    decay_mult: 250
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 10
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip1"
+  bottom: "label"
+  top: "loss"
+}
+I0331 14:31:52.121984  9021 net.cpp:154] Setting up Layer of device :0 @cpu 0 Layer : cifar
+I0331 14:31:52.122035  9021 layer_factory.hpp:114] Creating layer cifar
+I0331 14:31:52.124369  9021 net.cpp:169] Creating Layer cifar
+I0331 14:31:52.124519  9021 net.cpp:579] cifar -> data
+I0331 14:31:52.124555  9021 net.cpp:582] From AppendTop @cpu: 0
+I0331 14:31:52.124819  9021 net.cpp:579] cifar -> label
+I0331 14:31:52.124891  9021 net.cpp:582] From AppendTop @cpu: 0
+I0331 14:31:52.124959  9021 data_transformer.cpp:62] Loading mean file from: examples/cifar10/mean.binaryproto
+I0331 14:31:52.132732  9022 db_lmdb.cpp:72] Opened lmdb examples/cifar10/cifar10_train_lmdb
+I0331 14:31:52.134290  9022 virtDev_device.cpp:369] found a CPU core 14 for Data Reader on device 0 thread ID 140424390813440
+I0331 14:31:52.134383  9022 data_reader.cpp:128] inside DATAREADER 2
+I0331 14:31:52.134429  9022 data_reader.cpp:139] NUMA DOMAIN 0
+I0331 14:31:52.134639  9022 data_reader.cpp:139] NUMA DOMAIN 0
+I0331 14:31:52.231691  9021 data_layer.cpp:80] output data size: 128,3,32,32
+I0331 14:31:52.233608  9021 base_data_layer.cpp:96] Done cpu data
+I0331 14:31:52.233745  9021 net.cpp:219] Setting up cifar
+I0331 14:31:52.233899  9021 net.cpp:226] Top shape: 128 3 32 32 (393216)
+I0331 14:31:52.233961  9021 net.cpp:226] Top shape: 128 (128)
+I0331 14:31:52.234002  9021 net.cpp:234] Memory required for data: 1573376
+I0331 14:31:52.234068  9021 net.cpp:154] Setting up Layer of device :0 @cpu 2 Layer : conv1
+I0331 14:31:52.234109  9021 layer_factory.hpp:114] Creating layer conv1
+I0331 14:31:52.234241  9021 net.cpp:169] Creating Layer conv1
+I0331 14:31:52.234309  9021 net.cpp:606] conv1 <- data
+I0331 14:31:52.234370  9021 net.cpp:579] conv1 -> conv1
+I0331 14:31:52.234407  9021 net.cpp:582] From AppendTop @cpu: 2
+I0331 14:31:52.237465  9021 net.cpp:219] Setting up conv1
+I0331 14:31:52.237594  9021 net.cpp:226] Top shape: 128 32 32 32 (4194304)
+I0331 14:31:52.237634  9021 net.cpp:234] Memory required for data: 18350592
+I0331 14:31:52.237802  9021 net.cpp:154] Setting up Layer of device :0 @cpu 2 Layer : pool1
+I0331 14:31:52.237869  9021 layer_factory.hpp:114] Creating layer pool1
+I0331 14:31:52.238121  9021 net.cpp:169] Creating Layer pool1
+I0331 14:31:52.238203  9021 net.cpp:606] pool1 <- conv1
+I0331 14:31:52.238265  9021 net.cpp:579] pool1 -> pool1
+I0331 14:31:52.238301  9021 net.cpp:582] From AppendTop @cpu: 2
+I0331 14:31:52.238394  9021 net.cpp:219] Setting up pool1
+I0331 14:31:52.238451  9021 net.cpp:226] Top shape: 128 32 16 16 (1048576)
+I0331 14:31:52.238482  9021 net.cpp:234] Memory required for data: 22544896
+I0331 14:31:52.238534  9021 net.cpp:154] Setting up Layer of device :0 @cpu 2 Layer : relu1
+I0331 14:31:52.238569  9021 layer_factory.hpp:114] Creating layer relu1
+I0331 14:31:52.238636  9021 net.cpp:169] Creating Layer relu1
+I0331 14:31:52.238677  9021 net.cpp:606] relu1 <- pool1
+I0331 14:31:52.238723  9021 net.cpp:566] relu1 -> pool1 (in-place)
+I0331 14:31:52.238827  9021 net.cpp:219] Setting up relu1
+I0331 14:31:52.238884  9021 net.cpp:226] Top shape: 128 32 16 16 (1048576)
+I0331 14:31:52.238916  9021 net.cpp:234] Memory required for data: 26739200
+I0331 14:31:52.238962  9021 net.cpp:154] Setting up Layer of device :0 @cpu 2 Layer : norm1
+I0331 14:31:52.238996  9021 layer_factory.hpp:114] Creating layer norm1
+I0331 14:31:52.239073  9021 net.cpp:169] Creating Layer norm1
+I0331 14:31:52.239111  9021 net.cpp:606] norm1 <- pool1
+I0331 14:31:52.239158  9021 net.cpp:579] norm1 -> norm1
+I0331 14:31:52.239204  9021 net.cpp:582] From AppendTop @cpu: 2
+I0331 14:31:52.239490  9021 net.cpp:219] Setting up norm1
+I0331 14:31:52.239568  9021 net.cpp:226] Top shape: 128 32 16 16 (1048576)
+I0331 14:31:52.239601  9021 net.cpp:234] Memory required for data: 30933504
+I0331 14:31:52.239650  9021 net.cpp:154] Setting up Layer of device :0 @cpu 2 Layer : conv2
+I0331 14:31:52.239845  9021 layer_factory.hpp:114] Creating layer conv2
+I0331 14:31:52.239956  9021 net.cpp:169] Creating Layer conv2
+I0331 14:31:52.239998  9021 net.cpp:606] conv2 <- norm1
+I0331 14:31:52.240053  9021 net.cpp:579] conv2 -> conv2
+I0331 14:31:52.240085  9021 net.cpp:582] From AppendTop @cpu: 2
+I0331 14:31:52.250800  9021 net.cpp:219] Setting up conv2
+I0331 14:31:52.250937  9021 net.cpp:226] Top shape: 128 32 16 16 (1048576)
+I0331 14:31:52.250988  9021 net.cpp:234] Memory required for data: 35127808
+I0331 14:31:52.251102  9021 net.cpp:154] Setting up Layer of device :0 @cpu 2 Layer : relu2
+I0331 14:31:52.251155  9021 layer_factory.hpp:114] Creating layer relu2
+I0331 14:31:52.251216  9021 net.cpp:169] Creating Layer relu2
+I0331 14:31:52.251260  9021 net.cpp:606] relu2 <- conv2
+I0331 14:31:52.251312  9021 net.cpp:566] relu2 -> conv2 (in-place)
+I0331 14:31:52.251372  9021 net.cpp:219] Setting up relu2
+I0331 14:31:52.251425  9021 net.cpp:226] Top shape: 128 32 16 16 (1048576)
+I0331 14:31:52.251458  9021 net.cpp:234] Memory required for data: 39322112
+I0331 14:31:52.251505  9021 net.cpp:154] Setting up Layer of device :0 @cpu 2 Layer : pool2
+I0331 14:31:52.251541  9021 layer_factory.hpp:114] Creating layer pool2
+I0331 14:31:52.251689  9021 net.cpp:169] Creating Layer pool2
+I0331 14:31:52.251793  9021 net.cpp:606] pool2 <- conv2
+I0331 14:31:52.251863  9021 net.cpp:579] pool2 -> pool2
+I0331 14:31:52.251900  9021 net.cpp:582] From AppendTop @cpu: 2
+I0331 14:31:52.251971  9021 net.cpp:219] Setting up pool2
+I0331 14:31:52.252027  9021 net.cpp:226] Top shape: 128 32 8 8 (262144)
+I0331 14:31:52.252059  9021 net.cpp:234] Memory required for data: 40370688
+I0331 14:31:52.252110  9021 net.cpp:154] Setting up Layer of device :0 @cpu 2 Layer : norm2
+I0331 14:31:52.252171  9021 layer_factory.hpp:114] Creating layer norm2
+I0331 14:31:52.252230  9021 net.cpp:169] Creating Layer norm2
+I0331 14:31:52.252269  9021 net.cpp:606] norm2 <- pool2
+I0331 14:31:52.252334  9021 net.cpp:579] norm2 -> norm2
+I0331 14:31:52.252372  9021 net.cpp:582] From AppendTop @cpu: 2
+I0331 14:31:52.252590  9021 net.cpp:219] Setting up norm2
+I0331 14:31:52.252671  9021 net.cpp:226] Top shape: 128 32 8 8 (262144)
+I0331 14:31:52.252704  9021 net.cpp:234] Memory required for data: 41419264
+I0331 14:31:52.252791  9021 net.cpp:154] Setting up Layer of device :0 @cpu 2 Layer : conv3
+I0331 14:31:52.252830  9021 layer_factory.hpp:114] Creating layer conv3
+I0331 14:31:52.252897  9021 net.cpp:169] Creating Layer conv3
+I0331 14:31:52.252936  9021 net.cpp:606] conv3 <- norm2
+I0331 14:31:52.252988  9021 net.cpp:579] conv3 -> conv3
+I0331 14:31:52.253021  9021 net.cpp:582] From AppendTop @cpu: 2
+I0331 14:31:52.262543  9021 net.cpp:219] Setting up conv3
+I0331 14:31:52.262686  9021 net.cpp:226] Top shape: 128 64 8 8 (524288)
+I0331 14:31:52.262742  9021 net.cpp:234] Memory required for data: 43516416
+I0331 14:31:52.262908  9021 net.cpp:154] Setting up Layer of device :0 @cpu 2 Layer : relu3
+I0331 14:31:52.262970  9021 layer_factory.hpp:114] Creating layer relu3
+I0331 14:31:52.263034  9021 net.cpp:169] Creating Layer relu3
+I0331 14:31:52.263077  9021 net.cpp:606] relu3 <- conv3
+I0331 14:31:52.263154  9021 net.cpp:566] relu3 -> conv3 (in-place)
+I0331 14:31:52.263232  9021 net.cpp:219] Setting up relu3
+I0331 14:31:52.263291  9021 net.cpp:226] Top shape: 128 64 8 8 (524288)
+I0331 14:31:52.263327  9021 net.cpp:234] Memory required for data: 45613568
+I0331 14:31:52.263380  9021 net.cpp:154] Setting up Layer of device :0 @cpu 2 Layer : pool3
+I0331 14:31:52.263413  9021 layer_factory.hpp:114] Creating layer pool3
+I0331 14:31:52.263564  9021 net.cpp:169] Creating Layer pool3
+I0331 14:31:52.263625  9021 net.cpp:606] pool3 <- conv3
+I0331 14:31:52.263682  9021 net.cpp:579] pool3 -> pool3
+I0331 14:31:52.263717  9021 net.cpp:582] From AppendTop @cpu: 2
+I0331 14:31:52.263830  9021 net.cpp:219] Setting up pool3
+I0331 14:31:52.263897  9021 net.cpp:226] Top shape: 128 64 4 4 (131072)
+I0331 14:31:52.263931  9021 net.cpp:234] Memory required for data: 46137856
+I0331 14:31:52.264117  9021 net.cpp:154] Setting up Layer of device :0 @cpu 2 Layer : ip1
+I0331 14:31:52.264166  9021 layer_factory.hpp:114] Creating layer ip1
+I0331 14:31:52.264259  9021 net.cpp:169] Creating Layer ip1
+I0331 14:31:52.264303  9021 net.cpp:606] ip1 <- pool3
+I0331 14:31:52.264359  9021 net.cpp:579] ip1 -> ip1
+I0331 14:31:52.264392  9021 net.cpp:582] From AppendTop @cpu: 2
+I0331 14:31:52.265271  9021 net.cpp:219] Setting up ip1
+I0331 14:31:52.265370  9021 net.cpp:226] Top shape: 128 10 (1280)
+I0331 14:31:52.265405  9021 net.cpp:234] Memory required for data: 46142976
+I0331 14:31:52.265481  9021 net.cpp:154] Setting up Layer of device :0 @cpu 2 Layer : loss
+I0331 14:31:52.265516  9021 layer_factory.hpp:114] Creating layer loss
+I0331 14:31:52.265578  9021 net.cpp:169] Creating Layer loss
+I0331 14:31:52.265614  9021 net.cpp:606] loss <- ip1
+I0331 14:31:52.265655  9021 net.cpp:606] loss <- label
+I0331 14:31:52.265719  9021 net.cpp:579] loss -> loss
+I0331 14:31:52.265794  9021 net.cpp:582] From AppendTop @cpu: 2
+I0331 14:31:52.265882  9021 layer_factory.hpp:114] Creating layer loss
+I0331 14:31:52.266065  9021 net.cpp:219] Setting up loss
+I0331 14:31:52.266139  9021 net.cpp:226] Top shape: (1)
+I0331 14:31:52.266173  9021 net.cpp:229]     with loss weight 1
+I0331 14:31:52.266296  9021 net.cpp:234] Memory required for data: 46142980
+I0331 14:31:52.266340  9021 net.cpp:296] loss needs backward computation.
+I0331 14:31:52.266377  9021 net.cpp:296] ip1 needs backward computation.
+I0331 14:31:52.266412  9021 net.cpp:296] pool3 needs backward computation.
+I0331 14:31:52.266444  9021 net.cpp:296] relu3 needs backward computation.
+I0331 14:31:52.266476  9021 net.cpp:296] conv3 needs backward computation.
+I0331 14:31:52.266510  9021 net.cpp:296] norm2 needs backward computation.
+I0331 14:31:52.266566  9021 net.cpp:296] pool2 needs backward computation.
+I0331 14:31:52.266602  9021 net.cpp:296] relu2 needs backward computation.
+I0331 14:31:52.266633  9021 net.cpp:296] conv2 needs backward computation.
+I0331 14:31:52.266665  9021 net.cpp:296] norm1 needs backward computation.
+I0331 14:31:52.266697  9021 net.cpp:296] relu1 needs backward computation.
+I0331 14:31:52.266729  9021 net.cpp:296] pool1 needs backward computation.
+I0331 14:31:52.266808  9021 net.cpp:296] conv1 needs backward computation.
+I0331 14:31:52.266847  9021 net.cpp:298] cifar does not need backward computation.
+I0331 14:31:52.266878  9021 net.cpp:340] This network produces output loss
+I0331 14:31:52.266955  9021 net.cpp:354] Network initialization done.
+I0331 14:31:52.271450  9021 solver.cpp:227] Creating test net (#0) specified by net file: examples/cifar10/cifar10_full_train_test_bsize128.prototxt
+I0331 14:31:52.271559  9021 cpu_info.cpp:452] Processor speed [MHz]: 1300
+I0331 14:31:52.271591  9021 cpu_info.cpp:455] Total number of sockets: 1
+I0331 14:31:52.271620  9021 cpu_info.cpp:458] Total number of CPU cores: 64
+I0331 14:31:52.271648  9021 cpu_info.cpp:461] Total number of processors: 256
+I0331 14:31:52.271675  9021 cpu_info.cpp:464] GPU is used: no
+I0331 14:31:52.271703  9021 cpu_info.cpp:467] OpenMP environmental variables are specified: yes
+I0331 14:31:52.271730  9021 cpu_info.cpp:470] OpenMP thread bind allowed: no
+I0331 14:31:52.271791  9021 cpu_info.cpp:473] Number of OpenMP threads: 16
+I0331 14:31:52.271917  9021 net.cpp:493] The NetState phase (1) differed from the phase (0) specified by a rule in layer cifar
+I0331 14:31:52.274175  9021 net.cpp:125] Initializing net from parameters: 
+name: "CIFAR10_full"
+state {
+  phase: TEST
+}
+layer {
+  name: "cifar"
+  type: "Data"
+  top: "data"
+  top: "label"
+  include {
+    phase: TEST
+  }
+  transform_param {
+    mean_file: "examples/cifar10/mean.binaryproto"
+  }
+  data_param {
+    source: "examples/cifar10/cifar10_test_lmdb"
+    batch_size: 100
+    backend: LMDB
+  }
+}
+layer {
+  name: "label_cifar_1_split"
+  type: "Split"
+  bottom: "label"
+  top: "label_cifar_1_split_0"
+  top: "label_cifar_1_split_1"
+}
+layer {
+  name: "conv1"
+  type: "Convolution"
+  bottom: "data"
+  top: "conv1"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  convolution_param {
+    num_output: 32
+    pad: 2
+    kernel_size: 5
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.0001
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "pool1"
+  type: "Pooling"
+  bottom: "conv1"
+  top: "pool1"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "relu1"
+  type: "ReLU"
+  bottom: "pool1"
+  top: "pool1"
+}
+layer {
+  name: "norm1"
+  type: "LRN"
+  bottom: "pool1"
+  top: "norm1"
+  lrn_param {
+    local_size: 3
+    alpha: 5e-05
+    beta: 0.75
+    norm_region: WITHIN_CHANNEL
+  }
+}
+layer {
+  name: "conv2"
+  type: "Convolution"
+  bottom: "norm1"
+  top: "conv2"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  convolution_param {
+    num_output: 32
+    pad: 2
+    kernel_size: 5
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu2"
+  type: "ReLU"
+  bottom: "conv2"
+  top: "conv2"
+}
+layer {
+  name: "pool2"
+  type: "Pooling"
+  bottom: "conv2"
+  top: "pool2"
+  pooling_param {
+    pool: AVE
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "norm2"
+  type: "LRN"
+  bottom: "pool2"
+  top: "norm2"
+  lrn_param {
+    local_size: 3
+    alpha: 5e-05
+    beta: 0.75
+    norm_region: WITHIN_CHANNEL
+  }
+}
+layer {
+  name: "conv3"
+  type: "Convolution"
+  bottom: "norm2"
+  top: "conv3"
+  convolution_param {
+    num_output: 64
+    pad: 2
+    kernel_size: 5
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu3"
+  type: "ReLU"
+  bottom: "conv3"
+  top: "conv3"
+}
+layer {
+  name: "pool3"
+  type: "Pooling"
+  bottom: "conv3"
+  top: "pool3"
+  pooling_param {
+    pool: AVE
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "ip1"
+  type: "InnerProduct"
+  bottom: "pool3"
+  top: "ip1"
+  param {
+    lr_mult: 1
+    decay_mult: 250
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 10
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "ip1_ip1_0_split"
+  type: "Split"
+  bottom: "ip1"
+  top: "ip1_ip1_0_split_0"
+  top: "ip1_ip1_0_split_1"
+}
+layer {
+  name: "accuracy"
+  type: "Accuracy"
+  bottom: "ip1_ip1_0_split_0"
+  bottom: "label_cifar_1_split_0"
+  top: "accuracy"
+  include {
+    phase: TEST
+  }
+}
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip1_ip1_0_split_1"
+  bottom: "label_cifar_1_split_1"
+  top: "loss"
+}
+I0331 14:31:52.274382  9021 net.cpp:154] Setting up Layer of device :0 @cpu 2 Layer : cifar
+I0331 14:31:52.274422  9021 layer_factory.hpp:114] Creating layer cifar
+I0331 14:31:52.274996  9021 net.cpp:169] Creating Layer cifar
+I0331 14:31:52.275115  9021 net.cpp:579] cifar -> data
+I0331 14:31:52.275149  9021 net.cpp:582] From AppendTop @cpu: 2
+I0331 14:31:52.275218  9021 net.cpp:579] cifar -> label
+I0331 14:31:52.275249  9021 net.cpp:582] From AppendTop @cpu: 2
+I0331 14:31:52.275305  9021 data_transformer.cpp:62] Loading mean file from: examples/cifar10/mean.binaryproto
+I0331 14:31:52.281824  9023 db_lmdb.cpp:72] Opened lmdb examples/cifar10/cifar10_test_lmdb
+I0331 14:31:52.283424  9023 virtDev_device.cpp:369] found a CPU core 12 for Data Reader on device 0 thread ID 140423910176512
+I0331 14:31:52.283516  9023 data_reader.cpp:128] inside DATAREADER 1
+I0331 14:31:52.283689  9023 data_reader.cpp:139] NUMA DOMAIN 0
+I0331 14:31:52.284101  9021 data_layer.cpp:80] output data size: 100,3,32,32
+I0331 14:31:52.286113  9021 base_data_layer.cpp:96] Done cpu data
+I0331 14:31:52.286227  9021 net.cpp:219] Setting up cifar
+I0331 14:31:52.286284  9021 net.cpp:226] Top shape: 100 3 32 32 (307200)
+I0331 14:31:52.286329  9021 net.cpp:226] Top shape: 100 (100)
+I0331 14:31:52.286361  9021 net.cpp:234] Memory required for data: 1229200
+I0331 14:31:52.286422  9021 net.cpp:154] Setting up Layer of device :0 @cpu 12 Layer : label_cifar_1_split
+I0331 14:31:52.286456  9021 layer_factory.hpp:114] Creating layer label_cifar_1_split
+I0331 14:31:52.286607  9021 net.cpp:169] Creating Layer label_cifar_1_split
+I0331 14:31:52.286648  9021 net.cpp:606] label_cifar_1_split <- label
+I0331 14:31:52.286696  9021 net.cpp:579] label_cifar_1_split -> label_cifar_1_split_0
+I0331 14:31:52.286730  9021 net.cpp:582] From AppendTop @cpu: 12
+I0331 14:31:52.286816  9021 net.cpp:579] label_cifar_1_split -> label_cifar_1_split_1
+I0331 14:31:52.286850  9021 net.cpp:582] From AppendTop @cpu: 12
+I0331 14:31:52.286905  9021 net.cpp:219] Setting up label_cifar_1_split
+I0331 14:31:52.286947  9021 net.cpp:226] Top shape: 100 (100)
+I0331 14:31:52.286988  9021 net.cpp:226] Top shape: 100 (100)
+I0331 14:31:52.287019  9021 net.cpp:234] Memory required for data: 1230000
+I0331 14:31:52.287060  9021 net.cpp:154] Setting up Layer of device :0 @cpu 12 Layer : conv1
+I0331 14:31:52.287092  9021 layer_factory.hpp:114] Creating layer conv1
+I0331 14:31:52.287151  9021 net.cpp:169] Creating Layer conv1
+I0331 14:31:52.287185  9021 net.cpp:606] conv1 <- data
+I0331 14:31:52.287231  9021 net.cpp:579] conv1 -> conv1
+I0331 14:31:52.287264  9021 net.cpp:582] From AppendTop @cpu: 12
+I0331 14:31:52.294893  9021 net.cpp:219] Setting up conv1
+I0331 14:31:52.295020  9021 net.cpp:226] Top shape: 100 32 32 32 (3276800)
+I0331 14:31:52.295054  9021 net.cpp:234] Memory required for data: 14337200
+I0331 14:31:52.295156  9021 net.cpp:154] Setting up Layer of device :0 @cpu 12 Layer : pool1
+I0331 14:31:52.295191  9021 layer_factory.hpp:114] Creating layer pool1
+I0331 14:31:52.295383  9021 net.cpp:169] Creating Layer pool1
+I0331 14:31:52.295423  9021 net.cpp:606] pool1 <- conv1
+I0331 14:31:52.295486  9021 net.cpp:579] pool1 -> pool1
+I0331 14:31:52.295519  9021 net.cpp:582] From AppendTop @cpu: 12
+I0331 14:31:52.295589  9021 net.cpp:219] Setting up pool1
+I0331 14:31:52.295651  9021 net.cpp:226] Top shape: 100 32 16 16 (819200)
+I0331 14:31:52.295683  9021 net.cpp:234] Memory required for data: 17614000
+I0331 14:31:52.295723  9021 net.cpp:154] Setting up Layer of device :0 @cpu 12 Layer : relu1
+I0331 14:31:52.295773  9021 layer_factory.hpp:114] Creating layer relu1
+I0331 14:31:52.295819  9021 net.cpp:169] Creating Layer relu1
+I0331 14:31:52.295852  9021 net.cpp:606] relu1 <- pool1
+I0331 14:31:52.295902  9021 net.cpp:566] relu1 -> pool1 (in-place)
+I0331 14:31:52.295948  9021 net.cpp:219] Setting up relu1
+I0331 14:31:52.295990  9021 net.cpp:226] Top shape: 100 32 16 16 (819200)
+I0331 14:31:52.296022  9021 net.cpp:234] Memory required for data: 20890800
+I0331 14:31:52.296061  9021 net.cpp:154] Setting up Layer of device :0 @cpu 12 Layer : norm1
+I0331 14:31:52.296094  9021 layer_factory.hpp:114] Creating layer norm1
+I0331 14:31:52.296139  9021 net.cpp:169] Creating Layer norm1
+I0331 14:31:52.296172  9021 net.cpp:606] norm1 <- pool1
+I0331 14:31:52.296226  9021 net.cpp:579] norm1 -> norm1
+I0331 14:31:52.296257  9021 net.cpp:582] From AppendTop @cpu: 12
+I0331 14:31:52.296540  9021 net.cpp:219] Setting up norm1
+I0331 14:31:52.296584  9021 net.cpp:226] Top shape: 100 32 16 16 (819200)
+I0331 14:31:52.296615  9021 net.cpp:234] Memory required for data: 24167600
+I0331 14:31:52.296655  9021 net.cpp:154] Setting up Layer of device :0 @cpu 12 Layer : conv2
+I0331 14:31:52.296687  9021 layer_factory.hpp:114] Creating layer conv2
+I0331 14:31:52.296752  9021 net.cpp:169] Creating Layer conv2
+I0331 14:31:52.296804  9021 net.cpp:606] conv2 <- norm1
+I0331 14:31:52.296859  9021 net.cpp:579] conv2 -> conv2
+I0331 14:31:52.296895  9021 net.cpp:582] From AppendTop @cpu: 12
+I0331 14:31:52.305933  9021 net.cpp:219] Setting up conv2
+I0331 14:31:52.306049  9021 net.cpp:226] Top shape: 100 32 16 16 (819200)
+I0331 14:31:52.306083  9021 net.cpp:234] Memory required for data: 27444400
+I0331 14:31:52.306180  9021 net.cpp:154] Setting up Layer of device :0 @cpu 12 Layer : relu2
+I0331 14:31:52.306212  9021 layer_factory.hpp:114] Creating layer relu2
+I0331 14:31:52.306280  9021 net.cpp:169] Creating Layer relu2
+I0331 14:31:52.306315  9021 net.cpp:606] relu2 <- conv2
+I0331 14:31:52.306370  9021 net.cpp:566] relu2 -> conv2 (in-place)
+I0331 14:31:52.306525  9021 net.cpp:219] Setting up relu2
+I0331 14:31:52.306568  9021 net.cpp:226] Top shape: 100 32 16 16 (819200)
+I0331 14:31:52.306603  9021 net.cpp:234] Memory required for data: 30721200
+I0331 14:31:52.306644  9021 net.cpp:154] Setting up Layer of device :0 @cpu 12 Layer : pool2
+I0331 14:31:52.306676  9021 layer_factory.hpp:114] Creating layer pool2
+I0331 14:31:52.306833  9021 net.cpp:169] Creating Layer pool2
+I0331 14:31:52.306871  9021 net.cpp:606] pool2 <- conv2
+I0331 14:31:52.306917  9021 net.cpp:579] pool2 -> pool2
+I0331 14:31:52.306948  9021 net.cpp:582] From AppendTop @cpu: 12
+I0331 14:31:52.307008  9021 net.cpp:219] Setting up pool2
+I0331 14:31:52.307051  9021 net.cpp:226] Top shape: 100 32 8 8 (204800)
+I0331 14:31:52.307082  9021 net.cpp:234] Memory required for data: 31540400
+I0331 14:31:52.307122  9021 net.cpp:154] Setting up Layer of device :0 @cpu 12 Layer : norm2
+I0331 14:31:52.307154  9021 layer_factory.hpp:114] Creating layer norm2
+I0331 14:31:52.307206  9021 net.cpp:169] Creating Layer norm2
+I0331 14:31:52.307240  9021 net.cpp:606] norm2 <- pool2
+I0331 14:31:52.307281  9021 net.cpp:579] norm2 -> norm2
+I0331 14:31:52.307312  9021 net.cpp:582] From AppendTop @cpu: 12
+I0331 14:31:52.307469  9021 net.cpp:219] Setting up norm2
+I0331 14:31:52.307517  9021 net.cpp:226] Top shape: 100 32 8 8 (204800)
+I0331 14:31:52.307548  9021 net.cpp:234] Memory required for data: 32359600
+I0331 14:31:52.307586  9021 net.cpp:154] Setting up Layer of device :0 @cpu 12 Layer : conv3
+I0331 14:31:52.307617  9021 layer_factory.hpp:114] Creating layer conv3
+I0331 14:31:52.307680  9021 net.cpp:169] Creating Layer conv3
+I0331 14:31:52.307713  9021 net.cpp:606] conv3 <- norm2
+I0331 14:31:52.307778  9021 net.cpp:579] conv3 -> conv3
+I0331 14:31:52.307840  9021 net.cpp:582] From AppendTop @cpu: 12
+I0331 14:31:52.318840  9021 net.cpp:219] Setting up conv3
+I0331 14:31:52.318972  9021 net.cpp:226] Top shape: 100 64 8 8 (409600)
+I0331 14:31:52.319015  9021 net.cpp:234] Memory required for data: 33998000
+I0331 14:31:52.319128  9021 net.cpp:154] Setting up Layer of device :0 @cpu 12 Layer : relu3
+I0331 14:31:52.319182  9021 layer_factory.hpp:114] Creating layer relu3
+I0331 14:31:52.319242  9021 net.cpp:169] Creating Layer relu3
+I0331 14:31:52.319284  9021 net.cpp:606] relu3 <- conv3
+I0331 14:31:52.319334  9021 net.cpp:566] relu3 -> conv3 (in-place)
+I0331 14:31:52.319391  9021 net.cpp:219] Setting up relu3
+I0331 14:31:52.319439  9021 net.cpp:226] Top shape: 100 64 8 8 (409600)
+I0331 14:31:52.319470  9021 net.cpp:234] Memory required for data: 35636400
+I0331 14:31:52.319514  9021 net.cpp:154] Setting up Layer of device :0 @cpu 12 Layer : pool3
+I0331 14:31:52.319546  9021 layer_factory.hpp:114] Creating layer pool3
+I0331 14:31:52.319682  9021 net.cpp:169] Creating Layer pool3
+I0331 14:31:52.319736  9021 net.cpp:606] pool3 <- conv3
+I0331 14:31:52.319835  9021 net.cpp:579] pool3 -> pool3
+I0331 14:31:52.319875  9021 net.cpp:582] From AppendTop @cpu: 12
+I0331 14:31:52.319943  9021 net.cpp:219] Setting up pool3
+I0331 14:31:52.319995  9021 net.cpp:226] Top shape: 100 64 4 4 (102400)
+I0331 14:31:52.320027  9021 net.cpp:234] Memory required for data: 36046000
+I0331 14:31:52.320075  9021 net.cpp:154] Setting up Layer of device :0 @cpu 12 Layer : ip1
+I0331 14:31:52.320106  9021 layer_factory.hpp:114] Creating layer ip1
+I0331 14:31:52.320184  9021 net.cpp:169] Creating Layer ip1
+I0331 14:31:52.320226  9021 net.cpp:606] ip1 <- pool3
+I0331 14:31:52.320277  9021 net.cpp:579] ip1 -> ip1
+I0331 14:31:52.320309  9021 net.cpp:582] From AppendTop @cpu: 12
+I0331 14:31:52.321146  9021 net.cpp:219] Setting up ip1
+I0331 14:31:52.321233  9021 net.cpp:226] Top shape: 100 10 (1000)
+I0331 14:31:52.321267  9021 net.cpp:234] Memory required for data: 36050000
+I0331 14:31:52.321342  9021 net.cpp:154] Setting up Layer of device :0 @cpu 12 Layer : ip1_ip1_0_split
+I0331 14:31:52.321377  9021 layer_factory.hpp:114] Creating layer ip1_ip1_0_split
+I0331 14:31:52.321426  9021 net.cpp:169] Creating Layer ip1_ip1_0_split
+I0331 14:31:52.321589  9021 net.cpp:606] ip1_ip1_0_split <- ip1
+I0331 14:31:52.321671  9021 net.cpp:579] ip1_ip1_0_split -> ip1_ip1_0_split_0
+I0331 14:31:52.321713  9021 net.cpp:582] From AppendTop @cpu: 12
+I0331 14:31:52.321815  9021 net.cpp:579] ip1_ip1_0_split -> ip1_ip1_0_split_1
+I0331 14:31:52.321853  9021 net.cpp:582] From AppendTop @cpu: 12
+I0331 14:31:52.321910  9021 net.cpp:219] Setting up ip1_ip1_0_split
+I0331 14:31:52.321959  9021 net.cpp:226] Top shape: 100 10 (1000)
+I0331 14:31:52.321998  9021 net.cpp:226] Top shape: 100 10 (1000)
+I0331 14:31:52.322028  9021 net.cpp:234] Memory required for data: 36058000
+I0331 14:31:52.322073  9021 net.cpp:154] Setting up Layer of device :0 @cpu 12 Layer : accuracy
+I0331 14:31:52.322105  9021 layer_factory.hpp:114] Creating layer accuracy
+I0331 14:31:52.322163  9021 net.cpp:169] Creating Layer accuracy
+I0331 14:31:52.322198  9021 net.cpp:606] accuracy <- ip1_ip1_0_split_0
+I0331 14:31:52.322237  9021 net.cpp:606] accuracy <- label_cifar_1_split_0
+I0331 14:31:52.322281  9021 net.cpp:579] accuracy -> accuracy
+I0331 14:31:52.322312  9021 net.cpp:582] From AppendTop @cpu: 12
+I0331 14:31:52.322368  9021 net.cpp:219] Setting up accuracy
+I0331 14:31:52.322412  9021 net.cpp:226] Top shape: (1)
+I0331 14:31:52.322443  9021 net.cpp:234] Memory required for data: 36058004
+I0331 14:31:52.322484  9021 net.cpp:154] Setting up Layer of device :0 @cpu 12 Layer : loss
+I0331 14:31:52.322515  9021 layer_factory.hpp:114] Creating layer loss
+I0331 14:31:52.322562  9021 net.cpp:169] Creating Layer loss
+I0331 14:31:52.322595  9021 net.cpp:606] loss <- ip1_ip1_0_split_1
+I0331 14:31:52.322630  9021 net.cpp:606] loss <- label_cifar_1_split_1
+I0331 14:31:52.322690  9021 net.cpp:579] loss -> loss
+I0331 14:31:52.322721  9021 net.cpp:582] From AppendTop @cpu: 12
+I0331 14:31:52.322819  9021 layer_factory.hpp:114] Creating layer loss
+I0331 14:31:52.322999  9021 net.cpp:219] Setting up loss
+I0331 14:31:52.323063  9021 net.cpp:226] Top shape: (1)
+I0331 14:31:52.323096  9021 net.cpp:229]     with loss weight 1
+I0331 14:31:52.323155  9021 net.cpp:234] Memory required for data: 36058008
+I0331 14:31:52.323191  9021 net.cpp:296] loss needs backward computation.
+I0331 14:31:52.323227  9021 net.cpp:298] accuracy does not need backward computation.
+I0331 14:31:52.323262  9021 net.cpp:296] ip1_ip1_0_split needs backward computation.
+I0331 14:31:52.323297  9021 net.cpp:296] ip1 needs backward computation.
+I0331 14:31:52.323328  9021 net.cpp:296] pool3 needs backward computation.
+I0331 14:31:52.323360  9021 net.cpp:296] relu3 needs backward computation.
+I0331 14:31:52.323392  9021 net.cpp:296] conv3 needs backward computation.
+I0331 14:31:52.323424  9021 net.cpp:296] norm2 needs backward computation.
+I0331 14:31:52.323457  9021 net.cpp:296] pool2 needs backward computation.
+I0331 14:31:52.323489  9021 net.cpp:296] relu2 needs backward computation.
+I0331 14:31:52.323520  9021 net.cpp:296] conv2 needs backward computation.
+I0331 14:31:52.323552  9021 net.cpp:296] norm1 needs backward computation.
+I0331 14:31:52.323585  9021 net.cpp:296] relu1 needs backward computation.
+I0331 14:31:52.323616  9021 net.cpp:296] pool1 needs backward computation.
+I0331 14:31:52.323647  9021 net.cpp:296] conv1 needs backward computation.
+I0331 14:31:52.323681  9021 net.cpp:298] label_cifar_1_split does not need backward computation.
+I0331 14:31:52.323715  9021 net.cpp:298] cifar does not need backward computation.
+I0331 14:31:52.323745  9021 net.cpp:340] This network produces output accuracy
+I0331 14:31:52.323819  9021 net.cpp:340] This network produces output loss
+I0331 14:31:52.323899  9021 net.cpp:354] Network initialization done.
+I0331 14:31:52.324183  9021 solver.cpp:104] Solver scaffolding done.
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 1 bound to OS proc set {1}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 2 bound to OS proc set {32}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 3 bound to OS proc set {33}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 4 bound to OS proc set {34}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 6 bound to OS proc set {2}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 5 bound to OS proc set {35}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 7 bound to OS proc set {3}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 10 bound to OS proc set {4}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 9 bound to OS proc set {37}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 11 bound to OS proc set {5}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 12 bound to OS proc set {38}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 13 bound to OS proc set {39}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 8 bound to OS proc set {36}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 14 bound to OS proc set {6}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 15 bound to OS proc set {7}
+E0331 14:31:52.340634  9021 syncedmem.cpp:249] Free ptr from virtDev Set Ptr
+E0331 14:31:52.341470  9021 syncedmem.cpp:249] Free ptr from virtDev Set Ptr
+E0331 14:31:52.341552  9021 syncedmem.cpp:249] Free ptr from virtDev Set Ptr
+E0331 14:31:52.341624  9021 syncedmem.cpp:249] Free ptr from virtDev Set Ptr
+E0331 14:31:52.341694  9021 syncedmem.cpp:249] Free ptr from virtDev Set Ptr
+E0331 14:31:52.341830  9021 syncedmem.cpp:249] Free ptr from virtDev Set Ptr
+E0331 14:31:52.341912  9021 syncedmem.cpp:249] Free ptr from virtDev Set Ptr
+E0331 14:31:52.341980  9021 syncedmem.cpp:249] Free ptr from virtDev Set Ptr
+I0331 14:31:52.342087  9021 parallel.cpp:709] Virtual pairs 0:1
+I0331 14:31:52.353449  9021 solver.cpp:140] param_.device_id() :1 scheduled at 16
+I0331 14:31:52.353554  9021 cpu_info.cpp:452] Processor speed [MHz]: 1300
+I0331 14:31:52.353586  9021 cpu_info.cpp:455] Total number of sockets: 1
+I0331 14:31:52.353615  9021 cpu_info.cpp:458] Total number of CPU cores: 64
+I0331 14:31:52.353642  9021 cpu_info.cpp:461] Total number of processors: 256
+I0331 14:31:52.353690  9021 cpu_info.cpp:464] GPU is used: no
+I0331 14:31:52.353720  9021 cpu_info.cpp:467] OpenMP environmental variables are specified: yes
+I0331 14:31:52.353749  9021 cpu_info.cpp:470] OpenMP thread bind allowed: no
+I0331 14:31:52.353803  9021 cpu_info.cpp:473] Number of OpenMP threads: 16
+I0331 14:31:52.354265  9021 net.cpp:154] Setting up Layer of device :1 @cpu 16 Layer : cifar
+I0331 14:31:52.354988  9021 net.cpp:582] From AppendTop @cpu: 14
+I0331 14:31:52.355111  9021 net.cpp:582] From AppendTop @cpu: 14
+I0331 14:31:52.356673  9021 data_layer.cpp:80] output data size: 128,3,32,32
+I0331 14:31:52.359220  9021 base_data_layer.cpp:96] Done cpu data
+I0331 14:31:52.371887  9021 net.cpp:154] Setting up Layer of device :1 @cpu 16 Layer : conv1
+I0331 14:31:52.372071  9021 net.cpp:582] From AppendTop @cpu: 16
+I0331 14:31:52.377037  9021 net.cpp:154] Setting up Layer of device :1 @cpu 16 Layer : pool1
+I0331 14:31:52.377256  9021 net.cpp:582] From AppendTop @cpu: 16
+I0331 14:31:52.377343  9021 net.cpp:154] Setting up Layer of device :1 @cpu 16 Layer : relu1
+I0331 14:31:52.377441  9021 net.cpp:154] Setting up Layer of device :1 @cpu 16 Layer : norm1
+I0331 14:31:52.377511  9021 net.cpp:582] From AppendTop @cpu: 16
+I0331 14:31:52.377706  9021 net.cpp:154] Setting up Layer of device :1 @cpu 16 Layer : conv2
+I0331 14:31:52.377811  9021 net.cpp:582] From AppendTop @cpu: 16
+I0331 14:31:52.399153  9021 net.cpp:154] Setting up Layer of device :1 @cpu 16 Layer : relu2
+I0331 14:31:52.399333  9021 net.cpp:154] Setting up Layer of device :1 @cpu 16 Layer : pool2
+I0331 14:31:52.399497  9021 net.cpp:582] From AppendTop @cpu: 16
+I0331 14:31:52.399569  9021 net.cpp:154] Setting up Layer of device :1 @cpu 16 Layer : norm2
+I0331 14:31:52.399644  9021 net.cpp:582] From AppendTop @cpu: 16
+I0331 14:31:52.399853  9021 net.cpp:154] Setting up Layer of device :1 @cpu 16 Layer : conv3
+I0331 14:31:52.399950  9021 net.cpp:582] From AppendTop @cpu: 16
+I0331 14:31:52.417037  9021 net.cpp:154] Setting up Layer of device :1 @cpu 16 Layer : relu3
+I0331 14:31:52.417212  9021 net.cpp:154] Setting up Layer of device :1 @cpu 16 Layer : pool3
+I0331 14:31:52.417371  9021 net.cpp:582] From AppendTop @cpu: 16
+I0331 14:31:52.417451  9021 net.cpp:154] Setting up Layer of device :1 @cpu 16 Layer : ip1
+I0331 14:31:52.417526  9021 net.cpp:582] From AppendTop @cpu: 16
+I0331 14:31:52.418385  9021 net.cpp:154] Setting up Layer of device :1 @cpu 16 Layer : loss
+I0331 14:31:52.418491  9021 net.cpp:582] From AppendTop @cpu: 16
+E0331 14:31:52.418907  9021 syncedmem.cpp:249] Free ptr from virtDev Set Ptr
+E0331 14:31:52.419080  9021 syncedmem.cpp:249] Free ptr from virtDev Set Ptr
+E0331 14:31:52.419159  9021 syncedmem.cpp:249] Free ptr from virtDev Set Ptr
+E0331 14:31:52.419230  9021 syncedmem.cpp:249] Free ptr from virtDev Set Ptr
+E0331 14:31:52.419301  9021 syncedmem.cpp:249] Free ptr from virtDev Set Ptr
+E0331 14:31:52.419370  9021 syncedmem.cpp:249] Free ptr from virtDev Set Ptr
+E0331 14:31:52.419440  9021 syncedmem.cpp:249] Free ptr from virtDev Set Ptr
+I0331 14:31:52.419920  9021 parallel.cpp:686] Starting Optimization
+I0331 14:31:52.420136  9021 solver.cpp:353] Solving CIFAR10_full
+I0331 14:31:52.420171  9021 solver.cpp:354] Learning Rate Policy: fixed
+I0331 14:31:52.420531  9039 parallel.cpp:459]  solver_->param().device_id() 1 root_solver 1 thread ID 140423027730176
+I0331 14:31:52.420697  9021 solver.cpp:419] Iteration 0, Testing net (#0)
+I0331 14:31:52.420789  9021 net.cpp:881] Copying source layer cifar
+I0331 14:31:52.420825  9021 net.cpp:881] Copying source layer conv1
+I0331 14:31:52.420862  9021 net.cpp:881] Copying source layer pool1
+I0331 14:31:52.420892  9021 net.cpp:881] Copying source layer relu1
+I0331 14:31:52.420922  9021 net.cpp:881] Copying source layer norm1
+I0331 14:31:52.420950  9021 net.cpp:881] Copying source layer conv2
+I0331 14:31:52.420984  9021 net.cpp:881] Copying source layer relu2
+I0331 14:31:52.421013  9021 net.cpp:881] Copying source layer pool2
+I0331 14:31:52.421041  9021 net.cpp:881] Copying source layer norm2
+I0331 14:31:52.421070  9021 net.cpp:881] Copying source layer conv3
+I0331 14:31:52.421138  9021 net.cpp:881] Copying source layer relu3
+I0331 14:31:52.421169  9021 net.cpp:881] Copying source layer pool3
+I0331 14:31:52.421200  9021 net.cpp:881] Copying source layer ip1
+I0331 14:31:52.421233  9021 net.cpp:881] Copying source layer loss
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 16 bound to OS proc set {8}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 17 bound to OS proc set {9}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 18 bound to OS proc set {10}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 19 bound to OS proc set {11}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 20 bound to OS proc set {12}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 21 bound to OS proc set {13}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 22 bound to OS proc set {14}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 24 bound to OS proc set {0}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 23 bound to OS proc set {15}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 25 bound to OS proc set {1}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 27 bound to OS proc set {33}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 26 bound to OS proc set {32}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 29 bound to OS proc set {35}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 28 bound to OS proc set {34}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 30 bound to OS proc set {2}
+OMP: Info #242: KMP_AFFINITY: pid 9021 thread 31 bound to OS proc set {3}
+I0331 14:31:52.725675  9039 blocking_queue.cpp:87] on_start waiting to copy data to parent
+I0331 14:31:52.725898  9021 solver.cpp:299] Iteration 0, loss = 2.30244
+I0331 14:31:52.726030  9021 solver.cpp:316]     Train net output #0: loss = 2.30244 (* 1 = 2.30244 loss)
+I0331 14:31:52.726343  9021 sgd_solver.cpp:143] Iteration 0, lr = 0.001
+I0331 14:33:26.675091  9021 blocking_queue.cpp:87] on_gradients_ready waiting to copy gradients from children
+I0331 14:34:22.171983  9021 solver.cpp:395] Iteration 800, loss = 1.47511
+I0331 14:34:22.173328  9021 solver.cpp:404] Optimization Done.
+E0331 14:34:22.173461  9021 parallel.cpp:413] CAME HERE IN ~V2VSync
+E0331 14:34:22.178498  9021 parallel.cpp:413] CAME HERE IN ~V2VSync
+I0331 14:34:22.178715  9021 caffe.cpp:378] Optimization Done.
+
+real	2m30.367s
+user	60m46.436s
+sys	17m48.179s
